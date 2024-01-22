@@ -1,5 +1,8 @@
 # ISICOD MVP - Data Visualization Application
 
+Application link for MacOs sys ---> https://drive.google.com/drive/folders/1q1Fe-duOY-_rxSrTmIU9avlv4fzmgAWY?usp=sharing
+
+
 ## Overview
 
 ISICOD MVP is a PyQt5-based desktop application for data visualization. It allows users to log in, explore data labels, and view detailed information for selected labels.
