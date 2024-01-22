@@ -159,10 +159,9 @@ class DataVisualisation(QWidget):
                 "margin: 5px; padding: 5px;")
             view_more_button.setFixedWidth(100)
             right_part_layout.addWidget(view_more_button, alignment=Qt.AlignBottom | Qt.AlignRight)
-            view_more_button.clicked.connect(self.expansion_page)
+            view_more_button.clicked.connect(partial(self.expansion_page, right_part_layout, right_part_content))
 
         for key, value in self.labels_data.items():
-
             label_step = QPushButton(f"{key}", left_part_content)
             label_step.setStyleSheet("color: #ffffff; background-color: #5766F9; font-size: 12pt; margin: 10px; "
                                      "padding: 5px; border-radius: 10px;")
@@ -190,6 +189,19 @@ class DataVisualisation(QWidget):
 
         main_layout.addWidget(second_part)
 
+        return_button = QPushButton("Return", self)
+        return_button.setCursor(QCursor(Qt.PointingHandCursor))
+        return_button.setStyleSheet("color: #ffffff; background-color: #5766F9; font-size: 12pt; border-radius: "
+                                    "10px;")
+        # return_button.clicked.connect(self.back)
+        return_button.setFixedWidth(100)
+        return_button.setStyleSheet("""
+            QPushButton:pressed {
+                background-color: #3c476c;
+            }
+        """)
+        main_layout.addWidget(return_button, alignment=Qt.AlignBottom | Qt.AlignLeft)
+
     # Show a confirmation dialog before disconnecting
     def disconnect(self):
         # Show a confirmation dialog
@@ -201,15 +213,21 @@ class DataVisualisation(QWidget):
             self.close()
             self.login_window.show()
 
-    def expansion_page(self):
+    def expansion_page(self, right_part_layout, right_part_content):
         # This function will be called when the button is clicked
         checked_id = controller.view_more(self.checkbox_group)
         if checked_id:
+            controller.clear_layout_labels(right_part_layout)
             # Retrieve and display detailed step content in the expanded visualization page
             step_content = self.all_labels[(int(checked_id) * -1) - 2].text()
-            self.expand_visualisation_page = ExpandVisualisationPage(self, step_content)
-            self.expand_visualisation_page.show()
-            self.hide()
+            label_step = QPushButton(step_content, right_part_content)
+            label_step.setStyleSheet("color: #ffffff; background-color: #4eafa3; font-size: 24pt; margin: 5px; "
+                                     "padding: 5px; border-radius: 10px;")
+            label_step.setCursor(QCursor(Qt.PointingHandCursor))
+            right_part_layout.addWidget(label_step)
+            # self.expand_visualisation_page = ExpandVisualisationPage(self, step_content)
+            # self.expand_visualisation_page.show()
+            # self.hide()
 
 
 # Define a class for the login window
